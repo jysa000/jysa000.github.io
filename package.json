@@ -23,5 +23,5 @@
     "@notionhq/client": "^5.4.0",
     "dayjs": "^1.11.19",
     "notion-to-md": "^3.1.9"
-  },
+  }
 }
