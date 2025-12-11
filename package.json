@@ -1,0 +1,27 @@
+{
+  "name": "jysa000.github.io",
+  "version": "1.0.0",
+  "description": "[![Gem Version](https://img.shields.io/gem/v/jekyll-theme-chirpy)][gem]&nbsp; [![GitHub license](https://img.shields.io/github/license/cotes2020/chirpy-starter.svg?color=blue)][mit]",
+  "main": "index.js",
+  "scripts": {
+    "sync:notion": "node scripts/sync-notion.js",
+    "sync:notion:push": "node scripts/sync-notion.js && git add _posts && git commit -m \"Sync from Notion\" && git push origin main"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jysa000/jysa000.github.io.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/jysa000/jysa000.github.io/issues"
+  },
+  "homepage": "https://github.com/jysa000/jysa000.github.io#readme",
+  "dependencies": {
+    "@notionhq/client": "^5.4.0",
+    "dayjs": "^1.11.19",
+    "notion-to-md": "^3.1.9"
+  },
+}
