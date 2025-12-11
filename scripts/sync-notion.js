@@ -18,9 +18,28 @@ const DATABASE_ID = process.env.NOTION_DATABASE_ID;
 // Chirpy _posts 경로
 const POSTS_DIR = path.join(__dirname, "..", "_posts");
 
-async function fetchPublishedPages() {
-    const res = await notion.databases.query({
+async function getDefaultDataSourceId() {
+    // 1. 데이터베이스 정보 가져오기
+    const db = await notion.databases.retrieve({
         database_id: DATABASE_ID,
+    });
+
+    // 2. DB 안에 연결된 data_sources 배열에서 첫 번째 사용
+    const dataSource = db.data_sources?.[0];
+    if (!dataSource) {
+        throw new Error("이 데이터베이스에 data_sources가 없습니다. (원본 DB인지 확인 필요)");
+    }
+
+    return dataSource.id;
+}
+
+async function fetchPublishedPages() {
+    // 3. data_source_id 얻기
+    const dataSourceId = await getDefaultDataSourceId();
+
+    // 4. 새 API: dataSources.query 사용
+    const res = await notion.dataSources.query({
+        data_source_id: dataSourceId,
         filter: {
             property: "Published",
             checkbox: { equals: true },
