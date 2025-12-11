@@ -94,6 +94,7 @@ async function pageToMarkdownFile(page) {
         `date: ${dateForFront}`,
         `categories: [${category}]`,
         `tags: [${tags.map((t) => `"${t}"`).join(", ")}]`,
+        'math: true',
         "---",
         "",
     ].join("\n");
