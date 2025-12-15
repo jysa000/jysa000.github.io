@@ -13,6 +13,39 @@ const __dirname = path.dirname(__filename);
 const notion = new Client({ auth: process.env.NOTION_API_KEY });
 const n2m = new NotionToMarkdown({ notionClient: notion });
 
+// Desmos embed 변환기
+function extractDesmosId(url) {
+  // https://www.desmos.com/calculator/XXXXXXXXXX 형태
+  const m = url.match(/desmos\.com\/calculator\/([a-zA-Z0-9]+)/);
+  return m?.[1] ?? null;
+}
+
+function desmosIframeHtml(id) {
+  // responsive (16:9). 원하시면 aspect-ratio만 바꾸면 됩니다.
+  return `
+<div style="width:100%; aspect-ratio: 16/9;">
+  <iframe
+    src="https://www.desmos.com/calculator/${id}?embed"
+    style="width:100%; height:100%; border:0;"
+    loading="lazy"
+    allowfullscreen>
+  </iframe>
+</div>
+`.trim();
+}
+
+// notion-to-md: embed 블록 커스텀 처리
+n2m.setCustomTransformer("embed", async (block) => {
+  const url = block?.embed?.url;
+  if (!url) return "";
+
+  const id = extractDesmosId(url);
+  if (id) return desmosIframeHtml(id);
+
+  // Desmos가 아니면 기본 링크로 처리
+  return `[${url}](${url})`;
+});
+
 const DATABASE_ID = process.env.NOTION_DATABASE_ID;
 
 // Chirpy _posts 경로
