@@ -2,7 +2,7 @@ name: "Sync Notion to Posts"
 
 on:
   schedule:
-    - cron: "0 * * * *"   # 매 시간 정각에 실행 (UTC 기준)
+    - cron: "0 0 * * *"   # 매일 자정 실행 (UTC 기준)
   workflow_dispatch:      # 수동으로도 실행 가능
 
 jobs:
